@@ -71,6 +71,21 @@ vpc_cidr = "172.16.0.0/16"
 - iam validation: `aws cloudtrail lookup-events --region us-east-2 --lookup-attributes AttributeKey=EventName,AttributeValue=CreateCluster`
   + this shoudl indicate the user who created the cluster and the user who will be deploying the kubernetes manifiests for app deployments 
 - validate ECR repositories:  `aws ecr describe-repositories`
+
+
+## golang app deployment
+- `kubectl create namespace demo`
+- `kubectl apply -f eks-deployment.yml`    
+- `kubectl get pods -n demo`
+- `kubectl get svc -n demo`
+```
+NAME         TYPE           CLUSTER-IP     EXTERNAL-IP                                                               PORT(S)        AGE
+fiber-demo   LoadBalancer   10.100.47.56   ab0dab5bc0f624e7d8fa2e52a9774de6-1875939410.us-east-2.elb.amazonaws.com   80:31858/TCP   32s
+```
+- you shoudl be able to connect to the "EXTERNAL-IP" string and get the "Hello World" app page
+- `kubectl get ingress demo`
+
+
 ## Links
 https://github.com/cloudposse/terraform-aws-eks-cluster/blob/master/examples/complete/main.tf
 https://faun.pub/aws-eks-and-pods-sizing-per-node-considerations-964b08dcfad3

@@ -1,6 +1,8 @@
 # Local .terraform directories
 **/.terraform/*
-
+cloudpossee/*
+outputs/*
+plans/*
 # .tfstate files
 *.tfstate
 *.tfstate.*

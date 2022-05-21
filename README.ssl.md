@@ -17,6 +17,7 @@
   + cert manager can also be installed using the `helm` command
     + this is how it was done in our deployment:
     + `helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.8.0 --set installCRDs=true`
+    
     ![Helm cert manager installation](img/helm-deploy-cert-manager.png "helm cert manager installed successfully")
 
 ## Links

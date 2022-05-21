@@ -91,3 +91,5 @@ https://github.com/cloudposse/terraform-aws-eks-cluster/blob/master/examples/com
 https://faun.pub/aws-eks-and-pods-sizing-per-node-considerations-964b08dcfad3
 https://stackoverflow.com/questions/57970896/pod-limit-on-node-aws-eks
 https://github.com/awslabs/amazon-eks-ami/blob/master/files/eni-max-pods.txt
+
+### Links added for SSL

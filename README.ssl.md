@@ -81,3 +81,4 @@ https://www.howtogeek.com/devops/how-to-install-kubernetes-cert-manager-and-conf
 https://github.com/kubernetes-sigs/external-dns/blob/master/docs/tutorials/aws.md
 https://stackoverflow.com/questions/62919880/eks-route53istio-gateway-cert-manager-letsencrypt
 https://aws.amazon.com/blogs/containers/securing-eks-ingress-contour-lets-encrypt-gitops/
+https://medium.com/devops-dudes/running-the-latest-aws-load-balancer-controller-in-your-aws-eks-cluster-9d59cdc1db98

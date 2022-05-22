@@ -26,7 +26,13 @@
 - AWS Load Balancer Controller is a controller to help manage Elastic Load Balancers for a Kubernetes cluster:
   + It satisfies Kubernetes Ingress resources by provisioning Application Load Balancers.
   + It satisfies Kubernetes Service resources by provisioning Network Load Balancers.
-- AWS **Elastic Load Balancing Application Load Balancer (ALB)** is an AWS service that load balances incoming traffic at the application layer (layer 7) across multiple targets, such as Amazon EC2 instances, in multiple Availability Zones.
+- AWS **Elastic Load Balancing Application Load Balancer (ALB)** is an AWS service that load balances incoming traffic at the application layer (layer 7) across multiple targets, such as Amazon EC2 instances, in multiple Availability Zones
+- this project was configured with the AWS ALB ingress controller
+- the AWS ingress controller is typically configured with these annotations:
+    - `kubernetes.io/ingress.class: alb`
+    - `alb.ingress.kubernetes.io/scheme: internet-facing`
+
+
 ### cert manager installation with Helm
 - `helm repo add jetstack https://charts.jetstack.io`
 - `helm repo update`
@@ -47,6 +53,7 @@
 - in order to use the ACME issuer type, the cluster has to have the ability to solve Let's Encrypt challenges
 - a typical cluster has an ingress controller that accepts public traffic; the ingress controller will be used to faciliate the Let's Encrypt challenge procedure
 - deploy sample app that uses the ALB ingress:  examples/alb/example-deployment.yml
+
 #### testing wtih self-signed certs: dry run
 1. create a "test" namespace: `kubectl create ns cert-manager-test`
 2. `cd examples/self-signed`
@@ -58,6 +65,7 @@
 
 6. to view the certificate, **list the secrets in that namespace:** (remember , SSL certs are stored as kubernetes secrets)
   + `kubectl get secrets -n cert-manager-test`
+
 ## Links
 https://www.youtube.com/watch?v=hoLUigg4V18&t=121s
 https://www.youtube.com/watch?v=HzxjsMrtIwc

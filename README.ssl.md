@@ -1,4 +1,40 @@
 
+# EKS Ingres and SSL 
+## kubernetes ingress
+- In Kubernetes terminology, Ingress exposes HTTP(S) routes from outside the cluster to services running within the cluster.
+- Kubernetes IO definition: **An API object that manages external access to the services in a cluster, typically HTTP**
+  + *Ingress may provide load balancing, SSL termination and name-based virtual hosting*
+  + Ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster.
+  + Traffic routing is controlled by rules defined on the Ingress resource
+- An Ingress can be configured to provide Kubernetes services with externally-reachable URLs while performing load balancing and SSL/TLS termination
+- An Ingress controller is responsible for fulfilling the Ingress, usually with a load balancer, though it may also configure your edge router or additional frontends to help handle the traffic
+- An Ingress does not expose arbitrary ports or protocols
+- Exposing services other than HTTP and HTTPS to the internet typically uses a service of type Service.Type=NodePort or Service.Type=LoadBalancer
+> key concept: **You must have an Ingress controller to satisfy an Ingress. Only creating an Ingress resource has no effect**
+### Ingress controllers
+- Unlike other types of controllers which run as part of the kube-controller-manager binary, Ingress controllers are not started automatically with a cluster
+- Kubernetes as a project supports and maintains AWS, GCE, and nginx ingress controllers
+  * aws controller: https://github.com/kubernetes-sigs/aws-load-balancer-controller#readme
+  * gce controller: https://github.com/kubernetes/ingress-gce/blob/master/README.md#readme
+  * nginx controller: https://github.com/kubernetes/ingress-nginx/blob/main/README.md#readme
+#### using multiple ingress controllers
+- You may deploy any number of ingress controllers using ingress class within a cluster
+- Note the .metadata.name of your ingress class resource.
+- When you create an ingress you would need that name to specify the `ingressClassName` field on your Ingress object
+### Ingress and ALB  on AWS EKS
+- When you create a Kubernetes ingress, an AWS Application Load Balancer (ALB) is provisioned that load balances application traffic
+- Application traffic is balanced at L7 of the OSI model
+- to load balance network traffic at L4, you deploy a Kubernetes service of the LoadBalancer type
+- The AWS Load Balancer Controller creates ALBs and the necessary supporting AWS resources whenever a Kubernetes ingress resource is created on the cluster with the kubernetes.io/ingress.class: alb annotation
+- the ingress resource configures the ALB to route HTTP or HTTPS traffic to different pods within the cluster
+- To ensure that your ingress objects use the AWS Load Balancer Controller, add the following annotation to your Kubernetes ingress specification
+```
+annotations:
+    kubernetes.io/ingress.class: alb
+```
+## Securing EKS Ingress With Contour And Let’s Encrypt (The GitOps Way)
+!["aws-contour"](./img/aws-contour-flux-gitops-letsencrypt.png "aws-contour-letsencrypt")
+
 ## Let's Encrypt --Overview
 - Let's Encrypt is a Certificate Authority that lets you generate free, short-lived SSL certificates automatically
 - to get a certificate we run the "cert bot" on our webserver--the Cert Bot "asks" Let's Encrypt for a certificate
@@ -72,7 +108,7 @@ https://www.youtube.com/watch?v=HzxjsMrtIwc
 https://www.youtube.com/watch?v=7m4_kZOObzw 
 https://github.com/cert-manager/cert-manager
 https://cert-manager.io/v0.14-docs/installation/kubernetes/ 
-
+https://blog.hubspot.com/website/best-free-ssl-certificate-sources
 https://myhightech.org/posts/20210402-cert-manager-on-eks/ 
 https://github.com/antonputra/tutorials/tree/main/lessons/083 
 https://aws.amazon.com/premiumsupport/knowledge-center/terminate-https-traffic-eks-acm/ 
@@ -82,3 +118,4 @@ https://github.com/kubernetes-sigs/external-dns/blob/master/docs/tutorials/aws.m
 https://stackoverflow.com/questions/62919880/eks-route53istio-gateway-cert-manager-letsencrypt
 https://aws.amazon.com/blogs/containers/securing-eks-ingress-contour-lets-encrypt-gitops/
 https://medium.com/devops-dudes/running-the-latest-aws-load-balancer-controller-in-your-aws-eks-cluster-9d59cdc1db98
+https://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html

@@ -12,7 +12,7 @@ kubernetes_version = "1.21"
 
 oidc_provider_enabled = true
 
-enabled_cluster_log_types = ["audit"]
+# enabled_cluster_log_types = []
 
 cluster_log_retention_period = 7
 
@@ -46,7 +46,7 @@ http_enabled = true
 
 http_redirect = false
 
-access_logs_enabled = true
+access_logs_enabled = false
 
 alb_access_logs_s3_bucket_force_destroy = true
 
